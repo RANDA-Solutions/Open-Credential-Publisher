@@ -10,7 +10,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints
     public class Token
     {
         #region Statics
-        public static async Task<Token> GetToken(Register RegisterResponse) {
+        public static async Task<Token> GetBearerToken(Register RegisterResponse) {
             Dictionary<string, string> data = new Dictionary<string, string>() {
                 { "grant_type", "client_credentials" },
                 { "scope", "ocp-publisher" },

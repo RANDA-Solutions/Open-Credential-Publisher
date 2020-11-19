@@ -10,7 +10,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints
     public class Register
     {
         #region Statics
-        public static async Task<Register> GetRegister(string ClientName, string ClientUri) {
+        public static async Task<Register> RegisterClient(string ClientName, string ClientUri) {
             Models.Request.RegisterVM reqData = new Models.Request.RegisterVM() {
                 ClientName = ClientName,
                 ClientUri = ClientUri
