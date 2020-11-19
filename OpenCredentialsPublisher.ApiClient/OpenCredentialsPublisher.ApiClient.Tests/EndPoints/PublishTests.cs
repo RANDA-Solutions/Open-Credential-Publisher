@@ -24,7 +24,20 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
             var r = Register.RegisterClient(clientName, clientUri).Result;
             var t = Token.GetBearerToken(r).Result;
 
-            var result = Publish.PublishClr(t.AccessToken, jsonClr).Result;
+            string identity = Guid.NewGuid().ToString();
+
+            var result = Publish.PublishClr(t.AccessToken, identity, jsonClr).Result;
+        }
+
+        [TestMethod]
+        public void DeserializeTest() {
+            string filename = typeof(PublishTests).Assembly.GetManifestResourceNames().Single(s => s.EndsWith("Files.sample clr.json"));
+            string jsonClr;
+            using (var sr = new System.IO.StreamReader(typeof(PublishTests).Assembly.GetManifestResourceStream(filename))) {
+                jsonClr = sr.ReadToEnd();
+            }
+
+            var ds = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonClr);
         }
     }
 }

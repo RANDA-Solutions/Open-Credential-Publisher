@@ -23,7 +23,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints
                 .Accept
                 .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var content = new StringContent(RequestJson, Encoding.UTF8, "application/json");
+            var content = !String.IsNullOrEmpty(RequestJson) ? new StringContent(RequestJson, Encoding.UTF8, "application/json") : null;
 
             var result = await c.PostAsync(EndPoint, content);
 
