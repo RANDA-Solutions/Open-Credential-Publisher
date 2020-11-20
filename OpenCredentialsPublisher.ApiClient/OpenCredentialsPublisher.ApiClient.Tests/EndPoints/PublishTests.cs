@@ -18,26 +18,15 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
                 jsonClr = sr.ReadToEnd();
             }
 
-            string clientName = "ocp api client";
-            string clientUri = "https://localhost/ocpclient";
-
-            var r = Register.RegisterClient(clientName, clientUri).Result;
-            var t = Token.GetBearerToken(r).Result;
+            var t = ApiClient.Tests.ApiHelper.GetToken();
 
             string identity = Guid.NewGuid().ToString();
 
             var result = Publish.PublishClr(t.AccessToken, identity, jsonClr).Result;
-        }
 
-        [TestMethod]
-        public void DeserializeTest() {
-            string filename = typeof(PublishTests).Assembly.GetManifestResourceNames().Single(s => s.EndsWith("Files.sample clr.json"));
-            string jsonClr;
-            using (var sr = new System.IO.StreamReader(typeof(PublishTests).Assembly.GetManifestResourceStream(filename))) {
-                jsonClr = sr.ReadToEnd();
-            }
-
-            var ds = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonClr);
+            Assert.IsFalse(String.IsNullOrEmpty(result.RequestId));
+            Assert.IsFalse(result.Error);
+            Assert.IsTrue(String.IsNullOrEmpty(result.ErrorMessage));
         }
     }
 }

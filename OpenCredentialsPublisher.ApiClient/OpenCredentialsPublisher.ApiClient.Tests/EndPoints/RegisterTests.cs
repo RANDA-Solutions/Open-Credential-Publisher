@@ -11,10 +11,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
     {
         [TestMethod()]
         public void GetRegisterTest() {
-            string clientName = "ocp api client";
-            string clientUri = "https://localhost/ocpclient";
-
-            var r = Register.RegisterClient(clientName, clientUri).Result;
+            var r = ApiClient.Tests.ApiHelper.GetRegistration();
 
             Assert.IsNotNull(r);
         }

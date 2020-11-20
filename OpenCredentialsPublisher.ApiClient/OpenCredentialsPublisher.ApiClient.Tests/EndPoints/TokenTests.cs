@@ -11,12 +11,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
     {
         [TestMethod()]
         public void GetTokenTest() {
-            string clientName = "ocp api client";
-            string clientUri = "https://localhost/ocpclient";
-
-            var r = Register.RegisterClient(clientName, clientUri).Result;
-
-            var t = Token.GetBearerToken(r).Result;
+            var t = ApiClient.Tests.ApiHelper.GetToken();
 
             Assert.IsNotNull(t);
             Assert.IsTrue(t.AccessToken.Length > 0);
