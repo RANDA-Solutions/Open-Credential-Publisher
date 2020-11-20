@@ -12,17 +12,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
     {
         [TestMethod()]
         public void PublishClrTest() {
-            string filename = typeof(PublishTests).Assembly.GetManifestResourceNames().Single(s => s.EndsWith("Files.sample clr.json"));
-            string jsonClr;
-            using (var sr = new System.IO.StreamReader(typeof(PublishTests).Assembly.GetManifestResourceStream(filename))) {
-                jsonClr = sr.ReadToEnd();
-            }
-
-            var t = ApiClient.Tests.ApiHelper.GetToken();
-
-            string identity = Guid.NewGuid().ToString();
-
-            var result = Publish.PublishClr(t.AccessToken, identity, jsonClr).Result;
+            var result = ApiClient.Tests.ApiTestHelper.GetPublish();
 
             Assert.IsFalse(String.IsNullOrEmpty(result.RequestId));
             Assert.IsFalse(result.Error);

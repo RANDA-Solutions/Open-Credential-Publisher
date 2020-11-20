@@ -11,7 +11,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
     {
         [TestMethod()]
         public void GetTokenTest() {
-            var t = ApiClient.Tests.ApiHelper.GetToken();
+            var t = ApiClient.Tests.ApiTestHelper.GetToken();
 
             Assert.IsNotNull(t);
             Assert.IsTrue(t.AccessToken.Length > 0);

@@ -11,7 +11,7 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints.Tests
     {
         [TestMethod()]
         public void GetRegisterTest() {
-            var r = ApiClient.Tests.ApiHelper.GetRegistration();
+            var r = ApiClient.Tests.ApiTestHelper.GetRegistration();
 
             Assert.IsNotNull(r);
         }

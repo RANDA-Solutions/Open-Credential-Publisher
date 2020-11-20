@@ -57,6 +57,26 @@ namespace OpenCredentialsPublisher.ApiClient.EndPoints
                 throw new Exception($"Unable to connect. {result.StatusCode}: {result.ReasonPhrase}");
             }
         }
+
+        public static async Task<T> ConnectGet<T>(string EndPoint, string RouteValues, string BearerToken = null) where T : new() {
+            var c = new HttpClient() {
+                BaseAddress = Runtime.ApiBaseUri
+            };
+
+            if (!String.IsNullOrEmpty(BearerToken)) {
+                c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", BearerToken);
+            }
+
+            var result = await c.GetAsync($"{EndPoint}{RouteValues}");
+
+            if (result.IsSuccessStatusCode) {
+                string data = await result.Content.ReadAsStringAsync();
+                T vm = JsonConvert.DeserializeObject<T>(data);
+                return vm;
+            } else {
+                throw new Exception($"Unable to connect. {result.StatusCode}: {result.ReasonPhrase}");
+            }
+        }
         #endregion
     }
 }
