@@ -11,17 +11,11 @@ namespace Infotekka.ND.ClrExtract
     {
         string SchoolName { get; }
 
-        string SchoolAddress1 { get; }
+        string Principal { get; }
 
-        string SchoolAddress2 { get; }
+        IAddressData SchoolAddress { get; }
 
-        string SchoolState { get; }
-
-        string SchoolCity { get; }
-
-        string SchoolZip { get; }
-
-        string StateSchoolId { get; }
+        IIdentityData[] SchoolIds { get; }
 
         string SchoolPhone { get; }
 
@@ -48,25 +42,31 @@ namespace Infotekka.ND.ClrExtract
 
         string FirstName { get; }
 
+        string MiddleName { get; }
+
         string LastName { get; }
 
-        /// <summary>
-        /// Learner Sourced ID
-        /// </summary>
-        Guid SourcedID { get; }
+        DateTime DateOfBirth { get; }
 
-        string StateStudentId { get; }
+        /// <summary>
+        /// Learner Sourced system primary key
+        /// </summary>
+        string SourcedId { get; }
+
+        IIdentityData[] StudentIds { get; }
+
+        string HigherEdId { get; }
 
         string StudentPhone { get; }
 
-        string StudentAddress1 { get; }
+        IAddressData StudentAddress { get; }
 
-        string StudentAddress2 { get; }
+        string DistrictName { get; }
 
-        string StudentState { get; }
+        string DistrictStateId { get; }
 
-        string StudentCity { get; }
+        IIdentityData DistrictIds { get; }
 
-        string StudentZip { get; }
+        IAddressData DistrictAddress { get; }
     }
 }

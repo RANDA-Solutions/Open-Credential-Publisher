@@ -44,7 +44,7 @@ namespace Infotekka.ND.ClrExtract.Tests.CLR
 
         public string LastName { get; set; }
 
-        public Guid SourcedID { get; set; }
+        public string SourcedId { get; set; }
 
         public string StateStudentId { get; set; }
 
@@ -59,5 +59,29 @@ namespace Infotekka.ND.ClrExtract.Tests.CLR
         public string StudentCity { get; set; }
 
         public string StudentZip { get; set; }
+
+        public string Principal { get; set; }
+
+        public IAddressData SchoolAddress { get; set; }
+
+        public IIdentityData[] SchoolIds { get; set; }
+
+        public string MiddleName { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
+        public IIdentityData[] StudentIds { get; set; }
+
+        public string HigherEdId { get; set; }
+
+        public IAddressData StudentAddress { get; set; }
+
+        public string DistrictName { get; set; }
+
+        public string DistrictStateId { get; set; }
+
+        public IIdentityData DistrictIds { get; set; }
+
+        public IAddressData DistrictAddress { get; set; }
     }
 }

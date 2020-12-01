@@ -13,10 +13,17 @@ namespace Infotekka.ND.ClrExtract.Tests
     {
         [TestMethod()]
         public void GenerateClrTest() {
+            string sourceId = Guid.NewGuid().ToString();
+
             var t = new TranscriptData() {
                 FirstName = "test",
                 LastName = "user",
-                GPAs = new GpaClassRankData[0]
+                GPAs = new GpaClassRankData[0],
+                DistrictAddress = new AddressData(),
+                SchoolAddress = new AddressData(),
+                SchoolIds = new IdentityData[0],
+                StudentIds = new IdentityData[0],
+                StudentAddress = new AddressData()
             };
 
             var c = new CourseData[] {
@@ -33,7 +40,7 @@ namespace Infotekka.ND.ClrExtract.Tests
             var issuerId = Guid.NewGuid();
             var recipientId = Guid.NewGuid();
 
-            var clr = Convert.GenerateClr(issuerId, recipientId, t, c);
+            var clr = Convert.GenerateClr(sourceId, issuerId, recipientId, t, c);
 
             Assert.IsNotNull(clr);
             Assert.AreEqual("test user", clr.Learner.Name);

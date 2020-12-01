@@ -33,5 +33,7 @@ namespace Infotekka.ND.ClrExtract.Tests.CLR
         public bool CteCourse { get; set; }
 
         public bool ExcludeFromGpa { get; set; }
+
+        public string StateCourseId { get; set; }
     }
 }
