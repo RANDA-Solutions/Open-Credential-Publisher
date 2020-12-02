@@ -55,15 +55,11 @@ namespace Infotekka.ND.ClrExtract
 
         IIdentityData[] StudentIds { get; }
 
-        string HigherEdId { get; }
-
         string StudentPhone { get; }
 
         IAddressData StudentAddress { get; }
 
         string DistrictName { get; }
-
-        string DistrictStateId { get; }
 
         IIdentityData DistrictIds { get; }
 
