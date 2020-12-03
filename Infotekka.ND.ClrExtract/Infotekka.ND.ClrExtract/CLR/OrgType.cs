@@ -13,10 +13,7 @@ namespace Infotekka.ND.ClrExtract.CLR
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("districtId")]
-        public string DistrictId { get; set; }
-
-        [JsonProperty("districtId")]
+        [JsonProperty("districtIds")]
         public DistrictIdType[] DistrictIds { get; set; }
 
         [JsonProperty("address")]

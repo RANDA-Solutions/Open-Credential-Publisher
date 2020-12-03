@@ -17,6 +17,6 @@ namespace Infotekka.ND.ClrExtract.CLR
         public string CurrentGrade { get; set; }
 
         [JsonProperty("graduationDate")]
-        public DateTime GraduationDate { get; set; }
+        public DateTime? GraduationDate { get; set; }
     }
 }

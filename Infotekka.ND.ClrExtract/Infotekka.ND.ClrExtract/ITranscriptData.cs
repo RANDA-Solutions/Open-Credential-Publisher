@@ -46,12 +46,16 @@ namespace Infotekka.ND.ClrExtract
 
         string LastName { get; }
 
+        string GradeLevel { get; }
+
         DateTime DateOfBirth { get; }
 
         /// <summary>
         /// Learner Sourced system primary key
         /// </summary>
         string SourcedId { get; }
+
+        string StudentId { get; }
 
         IIdentityData[] StudentIds { get; }
 
@@ -61,7 +65,7 @@ namespace Infotekka.ND.ClrExtract
 
         string DistrictName { get; }
 
-        IIdentityData DistrictIds { get; }
+        IIdentityData[] DistrictIds { get; }
 
         IAddressData DistrictAddress { get; }
     }

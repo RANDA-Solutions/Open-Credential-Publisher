@@ -350,7 +350,11 @@ namespace Infotekka.ND.ClrExtract
                 Learner = new LearnerType() {
                     ID = $"urn:uuid:{RecipientId}",
                     Name = $"{Transcript.FirstName} {Transcript.LastName}",
+                    GivenName = Transcript.FirstName,
+                    AdditionalName = Transcript.MiddleName,
+                    FamilyName = Transcript.LastName,
                     SourcedId = Transcript.SourcedId,
+                    StudentId = Transcript.StudentId,
                     Identification = new IdentificationType() {
                         Context = context,
                         Type = "Identification",
@@ -366,6 +370,17 @@ namespace Infotekka.ND.ClrExtract
                         AddressLocality = Transcript.StudentAddress.City,
                         PostalCode = Transcript.StudentAddress.Zip,
                         addressCountry = Transcript.StudentAddress.Country
+                    },
+                    Enrollment = new EnrollmentType() {
+                        Context = context,
+                        Type = "Enrollment",
+                        CurrentGrade = Transcript.GradeLevel,
+                        GraduationDate = Transcript.GraduationDate
+                    },
+                    Demographic = new DemographicType() {
+                        Context = context,
+                        Type = "Demographic",
+                        Birthdate = Transcript.DateOfBirth
                     }
                 },
                 Publisher = publisher,

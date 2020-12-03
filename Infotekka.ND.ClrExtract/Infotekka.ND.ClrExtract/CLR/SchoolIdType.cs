@@ -7,10 +7,10 @@ namespace Infotekka.ND.ClrExtract.CLR
 {
     public class SchoolIdType
     {
-        [JsonProperty("studentIdentifier")]
+        [JsonProperty("schoolIdentifier")]
         public string StudentIdentifier { get; set; }
 
-        [JsonProperty("studentIdentificationSystem")]
+        [JsonProperty("schoolIdentificationSystem")]
         public string StudentIdentificationSystem { get; set; }
     }
 }
