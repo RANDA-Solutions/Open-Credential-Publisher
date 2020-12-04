@@ -10,6 +10,8 @@ namespace Infotekka.ND.ClrExtract
 {
     public static class Convert
     {
+        const string context = "https://contexts.ward.guru/clr_v1p0.jsonld";
+
         public static ClrRoot ClrFromJson(string JsonData) {
             return JsonConvert.DeserializeObject<ClrRoot>(JsonData);
         }
@@ -18,7 +20,17 @@ namespace Infotekka.ND.ClrExtract
             return JsonConvert.SerializeObject(ClrData, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
         }
 
-        public static ClrRoot GenerateClr(Guid IssuerId, Guid RecipientId, ITranscriptData Transcript, ICourseData[] Courses) {
+        /// <summary>
+        /// Generate a CLR object with the provided transcript data
+        /// </summary>
+        /// <param name="SourcedId">The primary key of the CLR</param>
+        /// <param name="IssuerId">The identifier of the issuer</param>
+        /// <param name="RecipientId">The identifier of the recipient</param>
+        /// <param name="Transcript">Transcript data</param>
+        /// <param name="Courses">Course data</param>
+        /// <returns><see cref="ClrRoot"/> object that can be converted to JSON</returns>
+        public static ClrRoot GenerateClr(string ClrSourcedId, Guid IssuerId, Guid RecipientId, ITranscriptData Transcript, ICourseData[] Courses) {
+
             Guid clrId = Guid.NewGuid();
             var recipient = new RecipientType() {
                 Type = "id",
@@ -29,16 +41,35 @@ namespace Infotekka.ND.ClrExtract
             var publisher = new PublisherType() {
                 ID = $"urn:uuid:{IssuerId}",
                 Name = Transcript.SchoolName,
-                SourcedId = Transcript.StateSchoolId,
+                SourcedId = ClrSourcedId,
                 Telephone = Transcript.SchoolPhone,
                 Address = new AddressType() {
-                    StreetAddress = (Transcript.SchoolAddress1 + " " + Transcript.SchoolAddress2).Trim(),
-                    AddressRegion = Transcript.SchoolState,
-                    AddressLocality = Transcript.SchoolCity,
-                    PostalCode = Transcript.SchoolZip,
-                    addressCountry = "USA"
+                    StreetAddress = (Transcript.SchoolAddress.Address1 + " " + Transcript.SchoolAddress.Address2).Trim(),
+                    AddressRegion = Transcript.SchoolAddress.State,
+                    AddressLocality = Transcript.SchoolAddress.City,
+                    PostalCode = Transcript.SchoolAddress.Zip,
+                    addressCountry = Transcript.SchoolAddress.Country
+                },
+                School = new SchoolType() {
+                    Context = context,
+                    Type = "School",
+                    Principal = Transcript.Principal,
+                    SchoolIds = Transcript.SchoolIds.Select(s => new SchoolIdType() {
+                        StudentIdentifier = s.Identifier,
+                        StudentIdentificationSystem = s.IdentificationSystem
+                    }).ToArray(),
+                    ParentOrg = new OrgType() {
+                        Type = "District",
+                        Name = Transcript.DistrictName,
+                        Address = new AddressType() {
+                            StreetAddress = (Transcript.DistrictAddress.Address1 + " " + Transcript.SchoolAddress.Address2).Trim(),
+                            AddressRegion = Transcript.DistrictAddress.State,
+                            AddressLocality = Transcript.DistrictAddress.City,
+                            PostalCode = Transcript.DistrictAddress.Zip,
+                            addressCountry = Transcript.DistrictAddress.Country
+                        }
+                    }
                 }
-                //ndt:schoolInfo
             };
 
             List<AssertionType> coreAssertions = new List<AssertionType>();
@@ -311,7 +342,7 @@ namespace Infotekka.ND.ClrExtract
 
             //Build CLR
             var clr = new ClrRoot() {
-                Context = "https://contexts.ward.guru/clr_v1p0.jsonld",  //???
+                Context = context,
                 ID = $"urn:uuid:{clrId}",
                 Name = "Student Transcript",
                 Partial = true,
@@ -319,17 +350,38 @@ namespace Infotekka.ND.ClrExtract
                 Learner = new LearnerType() {
                     ID = $"urn:uuid:{RecipientId}",
                     Name = $"{Transcript.FirstName} {Transcript.LastName}",
-                    SourcedId = Transcript.SourcedID.ToString(), //NOTE: Not sure this is correct?
-                    StudentId = Transcript.StateStudentId,
+                    GivenName = Transcript.FirstName,
+                    AdditionalName = Transcript.MiddleName,
+                    FamilyName = Transcript.LastName,
+                    SourcedId = Transcript.SourcedId,
+                    StudentId = Transcript.StudentId,
+                    Identification = new IdentificationType() {
+                        Context = context,
+                        Type = "Identification",
+                        StudentIds = Transcript.StudentIds.Select(s => new StudentIdType() {
+                            StudentIdentifier = s.Identifier,
+                            StudentIdentificationSystem = s.IdentificationSystem
+                        }).ToArray()
+                    },
                     Telephone = Transcript.StudentPhone,
                     Address = new AddressType() {
-                        StreetAddress = (Transcript.StudentAddress1 + " " + Transcript.StudentAddress2).Trim(),
-                        AddressRegion = Transcript.StudentState,
-                        AddressLocality = Transcript.StudentCity,
-                        PostalCode = Transcript.StudentZip,
-                        addressCountry = "USA"
+                        StreetAddress = (Transcript.StudentAddress.Address1 + " " + Transcript.StudentAddress.Address2).Trim(),
+                        AddressRegion = Transcript.StudentAddress.State,
+                        AddressLocality = Transcript.StudentAddress.City,
+                        PostalCode = Transcript.StudentAddress.Zip,
+                        addressCountry = Transcript.StudentAddress.Country
+                    },
+                    Enrollment = new EnrollmentType() {
+                        Context = context,
+                        Type = "Enrollment",
+                        CurrentGrade = Transcript.GradeLevel,
+                        GraduationDate = Transcript.GraduationDate
+                    },
+                    Demographic = new DemographicType() {
+                        Context = context,
+                        Type = "Demographic",
+                        Birthdate = Transcript.DateOfBirth
                     }
-                    //ndt:studentInfo
                 },
                 Publisher = publisher,
                 Assertions = coreAssertions
@@ -357,7 +409,6 @@ namespace Infotekka.ND.ClrExtract
                     Level = Course.GradeLevel,
                     ResultDescriptions = null,
                     Tags = null
-                    //ndt:courseInfo
                 },
                 Results = null
             };
@@ -392,6 +443,17 @@ namespace Infotekka.ND.ClrExtract
             }
 
             ca.Achievement.Tags = tags.ToArray();
+
+            if (!String.IsNullOrEmpty(Course.StateCourseId)) {
+                ca.Achievement.Course = new CourseType() {
+                    Context = context,
+                    Type = "Course",
+                    CourseId = new CourseIdType() {
+                        CourseIdentifier = Course.StateCourseId,
+                        CourseCodeSystem = "State"
+                    }
+                };
+            }
 
             return ca;
         }

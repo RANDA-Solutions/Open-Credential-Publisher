@@ -10,8 +10,6 @@ namespace Infotekka.ND.ClrExtract
     {
         bool CoreCourse { get; }
 
-        string StateDescriptiveCode { get; }
-
         string GradeLevel { get; }
 
         decimal CreditsReceived { get; }
@@ -24,7 +22,11 @@ namespace Infotekka.ND.ClrExtract
 
         string CourseTitle { get; }
 
+        string StateDescriptiveCode { get; }
+
         string StateSubjectDesc { get; }
+
+        string StateCourseId { get; }
 
         string LetterGrade { get; }
 

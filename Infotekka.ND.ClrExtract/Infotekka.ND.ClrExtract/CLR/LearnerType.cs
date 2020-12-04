@@ -9,24 +9,25 @@ namespace Infotekka.ND.ClrExtract.CLR
 {
     public class LearnerType : IssuerType
     {
-        //[JsonProperty("id")]
-        //public string ID { get; set; }
+        [JsonProperty("givenName")]
+        public string GivenName { get; set; }
 
-        //[JsonProperty("name")]
-        //public string Name { get; set; }
+        [JsonProperty("additionalName")]
+        public string AdditionalName { get; set; }
 
-        //[JsonProperty("sourcedId")]
-        //public string SourcedId { get; set; }
+        [JsonProperty("familyName")]
+        public string FamilyName { get; set; }
 
         [JsonProperty("studentId")]
         public string StudentId { get; set; }
 
-        //[JsonProperty("address")]
-        //public AddressType Address { get; set; }
+        [JsonProperty("hsx:Identification")]
+        public IdentificationType Identification { get; set; }
 
-        //[JsonProperty("telephone")]
-        //public string Telephone { get; set; }
+        [JsonProperty("hsx:Enrollment")]
+        public EnrollmentType Enrollment { get; set; }
 
-        //ndt:studentInfo
+        [JsonProperty("hsx:Demographic")]
+        public DemographicType Demographic { get; set; }
     }
 }

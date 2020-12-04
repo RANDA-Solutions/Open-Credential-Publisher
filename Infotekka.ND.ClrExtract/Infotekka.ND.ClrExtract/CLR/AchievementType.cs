@@ -42,6 +42,7 @@ namespace Infotekka.ND.ClrExtract.CLR
         [JsonProperty("tags")]
         public string[] Tags { get; set; }
 
-        //ndt:courseInfo
+        [JsonProperty("hsx:Course")]
+        public CourseType Course { get; set; }
     }
 }
